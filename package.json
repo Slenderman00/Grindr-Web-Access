@@ -1,0 +1,11 @@
+{
+    "name": "grindr-web-accsess",
+    "description": "Simple Travis-CI check for grindr web accsess",
+    "author": "Joar Heimonen",
+    "version": "0.0.1",
+    "devDependencies": {
+    },
+    "scripts": {
+      "test": "python3 test.py"
+    }
+  }
