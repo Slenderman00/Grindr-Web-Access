@@ -1,3 +1,8 @@
 import api
+import terminalqr
 
-api.fullLogin()
+terminalqr.drawqr("Test")
+
+api.fetchWebClientId()
+
+
