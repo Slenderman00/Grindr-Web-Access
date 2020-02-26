@@ -6,7 +6,7 @@ import terminalqr
 
 terminalqr.drawqr("Test")
 
-api.fetchWebClientId()
+web = api.fetchWebClientId()
 
 authtoken = api.fullLogin()
 
@@ -17,6 +17,8 @@ api.fetchSettings(authtoken)
 api.getProfileId(authtoken)
 
 api.generatePlainAuth(authtoken)
+
+token = [authtoken, web]
 
 socket = api.messageSocket(authtoken, onmessage)
 
