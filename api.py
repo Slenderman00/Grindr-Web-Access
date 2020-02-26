@@ -138,20 +138,18 @@ class messageSocket:
                 respons = xmltodict.parse(respons)
                 data = respons["message"]["body"]
                 data = json.loads(data)
-                self.onmessage(self.tokens, data["body"], data["sourceProfileId"])
+                self.onmessage(data["body"], data["sourceProfileId"])
             except:
                 pass
 
 
 
     def message(self, id, message):
-        data = {"sourceProfileId":str(getProfileId(self.tokens[0])),"targetProfileId":str(id),"messageId":str(uuid.uuid1()),"sourceDisplayName":str(getProfileId(self.tokens[0])),"type":"text","timestamp":1582651816848,"body":message}
+        data = {"sourceProfileId":str(getProfileId(self.tokens[0])),"targetProfileId":str(id),"messageId":str(uuid.uuid1()),"sourceDisplayName":str(getProfileId(self.tokens[0])),"type":"text","timestamp":time.time(),"body":str(message)}
         data = json.dumps(data)
         data = data.replace('"', '&quot;')
         self.ws.send('<message from="' + getProfileId(self.tokens[0]) + '@chat.grindr.com" id="U2ot8EBFwLRAw6U9" to="' + str(id) + '@chat.grindr.com" type="chat" xmlns="jabber:client"><body>' + data + '</body></message>')
 
     def start(self):
         self.authenticate()
-        t1 = threading.Thread(target=self.messageThread)
-        t1.start()
-        t1.join()
+        self.messageThread()

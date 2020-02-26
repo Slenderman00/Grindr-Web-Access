@@ -39,6 +39,8 @@ api.fetchProfiles(tokens[0])
 
 ```
 
+## Todo
+- respond to stanzas
 
 ## Dependencies
 - requests==2.23.0
