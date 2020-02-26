@@ -1,25 +1,14 @@
-
-#imporet the api
-
+#import the api
 import api
 
-#call full login function
-authtoken = api.fullLogin()
+tokens = api.fullLogin()
+socket = api.messageSocket(tokens, onmessage)
+socket.start()
 
-#fetch profiles
-profiles = api.fetchProfiles(authtoken)
-print("")
-print("Users near you:")
-print("")
+print(api.getProfileId(tokens[0]))
 
-#explore the data
-for profile in profiles["profiles"]:
-    print(str(profile["displayName"]) + " : " + str(profile["age"]))
+def onmessage(tokens, message, profileid):
+    print(message)
 
-print("")
-print("Your profile id:")
-print("")
 
-#fetch your own profile id
 
-print(api.getProfileId(authtoken))

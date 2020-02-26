@@ -8,43 +8,45 @@ Grindr web accsess is a framework for the new grindr v4 api
 ## Usage
 
 ```python
-
-#imporet the api
-
+#import the api
 import api
 
-#call full login function
-authtoken = api.fullLogin()
 
-#fetch profiles
-profiles = api.fetchProfiles(authtoken)
-print("")
-print("Users near you:")
-print("")
+# run full login to get appropriate tokens
+tokens = api.fullLogin()
 
-#explore the data
-for profile in profiles["profiles"]:
-    print(str(profile["displayName"]) + " : " + str(profile["age"]))
+#start the messageSocket client
+socket = api.messageSocket(tokens, onmessage)
+socket.start()
 
-print("")
-print("Your profile id:")
-print("")
-
-#fetch your own profile id
-
-print(api.getProfileId(authtoken))
+#define the onmessage function
+def onmessage(tokens, message, profileid):
+    # do stuff with message
+    print(message)
 
 ```
 
+## Usage 2
+```python
+
+#fetch your own userid
+api.getProfileId(tokens[0])
+
+#send message
+socket.message("<Userid>", "<Message body>")
+
+#fetch array of all users
+api.fetchProfiles(tokens[0])
+
+```
+
+
 ## Dependencies
-- requests
-- json
-- terminalqr
-- time
-- base64
-- websockets
-- asyncio
-- binascii
+- requests==2.23.0
+- asyncio==3.4.3
+- pyqrcode==1.2.1
+- websocket_client==0.57.0
+- xmltodict==0.12.0
 
 
 ## Contributing

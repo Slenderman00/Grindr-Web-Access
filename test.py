@@ -1,3 +1,6 @@
+#testing all functions
+#some of the tests require user intervention
+
 import api
 import terminalqr
 
@@ -14,6 +17,11 @@ api.fetchSettings(authtoken)
 api.getProfileId(authtoken)
 
 api.generatePlainAuth(authtoken)
+
+socket = api.messageSocket(authtoken, onmessage)
+
+def onmessage(id, message):
+    pass
 
 
 
