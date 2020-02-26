@@ -15,15 +15,14 @@ import api
 # run full login to get appropriate tokens
 tokens = api.fullLogin()
 
-#start the messageSocket client
-socket = api.messageSocket(tokens, onmessage)
-socket.start()
-
 #define the onmessage function
 def onmessage(tokens, message, profileid):
     # do stuff with message
     print(message)
 
+#start the messageSocket client
+socket = api.messageSocket(tokens, onmessage)
+socket.start()
 ```
 
 ## Usage 2

@@ -8,7 +8,7 @@ terminalqr.drawqr("Test")
 
 web = api.fetchWebClientId()
 
-authtoken = api.fullLogin()
+authtoken = str(api.fullLogin())
 
 api.fetchProfiles(authtoken)
 
@@ -20,11 +20,10 @@ api.generatePlainAuth(authtoken)
 
 token = [authtoken, web]
 
-socket = api.messageSocket(authtoken, onmessage)
-
 def onmessage(id, message):
     pass
 
+socket = api.messageSocket(authtoken, onmessage)
 
 
 
