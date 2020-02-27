@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/Slenderman00/Grindr-Web-Accsess.svg?branch=master)](https://travis-ci.com/Slenderman00/Grindr-Web-Accsess)
+[![Build Status](https://travis-ci.com/Slenderman00/Grindr-Web-Access.svg?branch=master)](https://travis-ci.com/Slenderman00/Grindr-Web-Access)
 
 # GRINDR WEB ACCESS
 
