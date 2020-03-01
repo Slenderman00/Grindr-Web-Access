@@ -32,7 +32,6 @@ def authtoken(id):
         x = requests.get(url)
         statuscode = x.status_code
         time.sleep(1)
-    print("Login sucsessfull grindr API returned: " + json.loads(x.text)["authtoken"])
     return json.loads(x.text)["authtoken"]
             
 # generating qr code from web client id
@@ -129,16 +128,12 @@ class messageSocket:
         #to avoid getting kicked for to many unacked messages
         self.acks += 1
         self.ws.send('<a h="' + str(self.acks) + '" xmlns="urn:xmpp:sm:3"/>')
-        print('--> <a h="' + str(self.acks) + '" xmlns="urn:xmpp:sm:3"/>')
-        print('-----------------------------------------------------------------')
 
         
     def messageThread(self):
         i = 2
         while 1:
             respons = self.ws.recv()
-            print('<-- ' + respons)
-            print('-----------------------------------------------------------------')
             if respons:
                 respons = xmltodict.parse(respons)
                 if next(iter(respons)) == 'message':
