@@ -8,7 +8,11 @@ Grindr web access is a framework for the new grindr v4 api
 ## Usage
 
 ```python
-#import the api
+# adding dependencies folder to the python path
+import sys
+sys.path.append('/dependencies')
+
+# import the api
 import api
 
 
@@ -40,7 +44,9 @@ api.fetchProfiles(tokens[0])
 ```
 
 ## Todo
-- respond to stanzas
+- respond to stanzas (Mostly working)
+- more functionality
+- explore positional spoofing
 
 ## Dependencies
 - requests==2.23.0

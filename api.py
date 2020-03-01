@@ -2,6 +2,7 @@
 
 import requests
 import json
+import sys
 import terminalqr
 import time
 import base64
@@ -11,7 +12,7 @@ import threading
 import xmltodict
 from websocket import create_connection
 
-
+# Fetching web client id
 def fetchWebClientId():
     url = 'https://grindr.mobi/v4/web-clients'
     postData = {}
@@ -22,6 +23,7 @@ def fetchWebClientId():
 
     return data["webClientId"]
 
+#fetching auth token
 def authtoken(id):
     statuscode = 404
 
@@ -33,22 +35,27 @@ def authtoken(id):
     print("Login sucsessfull grindr API returned: " + json.loads(x.text)["authtoken"])
     return json.loads(x.text)["authtoken"]
             
+# generating qr code from web client id
 def generateQr(id):
     print("Generating QR code")
     data = "grindrwebchat_" + id
     terminalqr.drawqr(data)
     print("url: https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=grindrwebchat_" + id)
 
+
+# fetch user settings
 def fetchSettings(authtoken):
     url = 'https://grindr.mobi/v4/me/prefs/settings/web'
     x = requests.get(url, headers={'authorization': 'Grindr3 ' + authtoken})
     return json.loads(x.text)
 
+# fetching all nearby profiles
 def fetchProfiles(authtoken):
     url = 'https://grindr.mobi/v4/locations/u4xstq8k995m/profiles?myType=false&online=false&faceOnly=false&photoOnly=false&notRecentlyChatted=false'
     x = requests.get(url, headers={'authorization': 'Grindr3 ' + authtoken})
     return json.loads(x.text)
 
+# extracting user profile id
 def getProfileId(authtoken):
     _authtoken = authtoken.split(".")
     _authtoken = _authtoken[1]
@@ -61,6 +68,7 @@ def getProfileId(authtoken):
     
     return json.loads(data)["profileId"]
 
+# generating plain auth
 def generatePlainAuth(authtoken):
     auth = getProfileId(authtoken) + "@chat.grindr.com" + "\00" + getProfileId(authtoken) + "\00" + authtoken
     _hex = binascii.b2a_base64(str.encode(auth), newline=False)
@@ -69,34 +77,19 @@ def generatePlainAuth(authtoken):
     return _hex
 
 
-
+# perforiming a full login
 def fullLogin():
     webClientId = fetchWebClientId()
     generateQr(webClientId)
     return [str(authtoken(webClientId)), str(webClientId)]
 
-#
-# Tring to connect to the ws-xmpp server using PLAIN SASL
-#
-
-
-        ##profiles = fetchProfiles(tokens[0])
-        ##print("")
-        ##rint("Users near you:")
-        ##print("")
-
-        #explore the data
-        ##for profile in profiles["profiles"]:
-        ##   print(str(profile["displayName"]) + " : " + str(profile["age"]))
-        ##    print("sending: 'Halla, Hva skjer?'")
-        ##    await websocket.send('<message from="' + getProfileId(tokens[0]) + '@chat.grindr.com" id="U2ot8EBFwLRAw6U9" to="' + str(profile["profileId"]) + '@chat.grindr.com" type="chat" xmlns="jabber:client"><body>{&quot;sourceProfileId&quot;:&quot;' + getProfileId(tokens[0]) + '&quot;,&quot;targetProfileId&quot;:&quot;' + str(profile["profileId"]) + '&quot;,&quot;messageId&quot;:&quot;' + str(uuid.uuid1()) + '&quot;,&quot;sourceDisplayName&quot;:&quot;200766359&quot;,&quot;type&quot;:&quot;text&quot;,&quot;timestamp&quot;:1582651816848,&quot;body&quot;:&quot;&quot;}</body></message>')
-        
-
+# xmpp stuff (WIP)
 class messageSocket:
     def __init__(self, tokens, onmessage):
         self.ws = create_connection("wss://chat.grindr.com:2443/ws-xmpp")
         self.tokens = tokens
         self.onmessage = onmessage
+        self.acks = 0
 
     def authenticate(self):
         print('<open to="chat.grindr.com" version="1.0" xmlns="urn:ietf:params:xml:ns:xmpp-framing"/>')
@@ -121,7 +114,8 @@ class messageSocket:
                 self.ws.send('<enable resume="false" xmlns="urn:xmpp:sm:3"/>')
                 self.ws.send('<presence xmlns="jabber:client"/>')
                 time.sleep(1)
-                self.ws.send('<a h="1" xmlns="urn:xmpp:sm:3"/>')
+                self.ack()
+
             
             if "r xmlns" in respons: 
                 i = 0
@@ -130,17 +124,33 @@ class messageSocket:
                 return "";
 
             #recieve message
+
+    def ack(self):
+        #to avoid getting kicked for to many unacked messages
+        self.acks += 1
+        self.ws.send('<a h="' + str(self.acks) + '" xmlns="urn:xmpp:sm:3"/>')
+        print('--> <a h="' + str(self.acks) + '" xmlns="urn:xmpp:sm:3"/>')
+        print('-----------------------------------------------------------------')
+
         
     def messageThread(self):
+        i = 2
         while 1:
-            try:
-                respons = self.ws.recv()
+            respons = self.ws.recv()
+            print('<-- ' + respons)
+            print('-----------------------------------------------------------------')
+            if respons:
                 respons = xmltodict.parse(respons)
-                data = respons["message"]["body"]
-                data = json.loads(data)
-                self.onmessage(data["body"], data["sourceProfileId"])
-            except:
-                pass
+                if next(iter(respons)) == 'message':
+                    self.ack()
+                    try:
+                        data = respons["message"]["body"]
+                        data = json.loads(data)
+                        self.onmessage(data["body"], data["sourceProfileId"])
+                    except:
+                        pass
+                if next(iter(respons)) == 'presence':
+                    self.ack()
 
 
 

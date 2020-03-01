@@ -1,6 +1,11 @@
 #testing all functions
 #some of the tests require user intervention
 
+#adding folders
+import sys
+sys.path.append('..')
+sys.path.append('../dependencies')
+
 import api
 import terminalqr
 
