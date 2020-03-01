@@ -8,10 +8,6 @@ Grindr web access is a framework for the new grindr v4 api
 ## Usage
 
 ```python
-# adding dependencies folder to the python path
-import sys
-sys.path.append('/dependencies')
-
 # import the api
 import api
 
