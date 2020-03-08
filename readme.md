@@ -4,6 +4,7 @@
 
 Grindr web access is a framework for the new grindr v4 api
 ![](https://i.imgur.com/6SGvLxS.png)
+Just scan the qrcode using your grindr app
 
 ## Usage
 
@@ -11,16 +12,19 @@ Grindr web access is a framework for the new grindr v4 api
 # import the api
 import api
 
-
-# run full login to get appropriate tokens
+#api full login
 tokens = api.fullLogin()
+print(api.getProfileId(tokens[0]))
 
-#define the onmessage function
-def onmessage(tokens, message, profileid):
-    # do stuff with message
-    print(message)
+#on message
+def onmessage(message, profileid, _type):
 
-#start the messageSocket client
+    #type: text, image, tap
+
+    #do stuff with message
+    print(_type + " " + message)
+
+#open socket
 socket = api.messageSocket(tokens, onmessage)
 socket.start()
 ```
@@ -40,9 +44,7 @@ api.fetchProfiles(tokens[0])
 ```
 
 ## Todo
-- respond to stanzas (Mostly working)
-- more functionality
-- explore positional spoofing
+- add search filters
 
 ## Dependencies
 - requests==2.23.0

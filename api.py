@@ -50,6 +50,7 @@ def fetchSettings(authtoken):
 
 # fetching all nearby profiles
 def fetchProfiles(authtoken):
+    # TODO: FIGURE OUT WTF THIS IS: "u4xstq8k995m"
     url = 'https://grindr.mobi/v4/locations/u4xstq8k995m/profiles?myType=false&online=false&faceOnly=false&photoOnly=false&notRecentlyChatted=false'
     x = requests.get(url, headers={'authorization': 'Grindr3 ' + authtoken})
     return json.loads(x.text)
@@ -141,7 +142,19 @@ class messageSocket:
                     try:
                         data = respons["message"]["body"]
                         data = json.loads(data)
-                        self.onmessage(data["body"], data["sourceProfileId"])
+                        if(data["type"] == "image"):
+                            #generating image url
+                            body = json.loads(data["body"])
+                            imageUrl = "https://cdns.grindr.com/grindr/chat/" + body["imageHash"]
+
+                            if("taps" in body["imageHash"]):
+                                self.onmessage(imageUrl, data["sourceProfileId"], "tap")
+                            else:
+                                self.onmessage(imageUrl, data["sourceProfileId"], data["type"])
+                                
+                        else:
+                            self.onmessage(data["body"], data["sourceProfileId"], data["type"])
+                        
                     except:
                         pass
                 if next(iter(respons)) == 'presence':
