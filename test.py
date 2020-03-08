@@ -19,7 +19,7 @@ api.generatePlainAuth(authtoken)
 
 token = [authtoken, web]
 
-def onmessage(id, message):
+def onmessage(message, id, _type):
     pass
 
 socket = api.messageSocket(authtoken, onmessage)
