@@ -151,7 +151,6 @@ class messageSocket:
                                 self.onmessage(imageUrl, data["sourceProfileId"], "tap")
                             else:
                                 self.onmessage(imageUrl, data["sourceProfileId"], data["type"])
-                                
                         else:
                             self.onmessage(data["body"], data["sourceProfileId"], data["type"])
                         
@@ -167,6 +166,18 @@ class messageSocket:
         data = json.dumps(data)
         data = data.replace('"', '&quot;')
         self.ws.send('<message from="' + getProfileId(self.tokens[0]) + '@chat.grindr.com" id="U2ot8EBFwLRAw6U9" to="' + str(id) + '@chat.grindr.com" type="chat" xmlns="jabber:client"><body>' + data + '</body></message>')
+
+    def tap(self, id, tapType):
+        body = '{\"imageHash\":\"taps/friendly.png\",\"imageType\":2,\"tapType\":0}'
+        if tapType == 1:
+            body = '{\"imageHash\":\"taps/hot.png\",\"imageType\":2,\"tapType\":1}'
+        if tapType == 1:
+            body = '{\"imageHash\":\"taps/looking.png\",\"imageType\":2,\"tapType\":2}'
+
+        data = {"sourceProfileId":str(getProfileId(self.tokens[0])),"targetProfileId":str(id),"messageId":str(uuid.uuid1()),"sourceDisplayName":str(getProfileId(self.tokens[0])),"type":"image","timestamp":time.time(),"body":str(body)}
+        data = json.dumps(data)
+        data = data.replace('"', '&quot;')
+        self.ws.send('<message from="' + getProfileId(self.tokens[0]) + '@chat.grindr.com" id="U2ot8EBFwLRAw6U9" to="' + str(id) + '@chat.grindr.com" type="image" xmlns="jabber:client"><body>' + data + '</body></message>')
 
     def start(self):
         self.authenticate()

@@ -38,6 +38,13 @@ api.getProfileId(tokens[0])
 #send message
 socket.message("<Userid>", "<Message body>")
 
+#send tap
+socket.tap("<Userid>", "<tapType>")
+#tap type = 0, 1, 2
+#0 = Friendly
+#1 = Hot
+#2 = Looking
+
 #fetch array of all users
 api.fetchProfiles(tokens[0])
 
