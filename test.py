@@ -9,14 +9,7 @@ web = api.fetchWebClientId()
 
 authtoken = str(api.fullLogin())
 
-#Geohash: Pls, take a look on Wikipedia, pretty interesting info about it.
-#In order to request profiles around a given location, you need to give a geohash (encoded coordinates) which is what you asked WTF it was haha
-#Look geohash.co for converting latitude and longitude to geohash
-# "u09tunqu9m7m" is the location for the Eiffel Tower in Paris. 
-# TODO: Implement a latitude longitude to geohash converter.
-geohash = 'u09tunqu9m7m'
-
-api.fetchProfiles(authtoken, geohash)
+api.fetchProfiles(authtoken, 40.785091, -73.968285)
 
 api.fetchSettings(authtoken)
 
