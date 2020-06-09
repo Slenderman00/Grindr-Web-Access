@@ -9,7 +9,7 @@ web = api.fetchWebClientId()
 
 authtoken = str(api.fullLogin())
 
-api.fetchProfiles(authtoken)
+api.fetchProfiles(authtoken, 40.785091, -73.968285)
 
 api.fetchSettings(authtoken)
 

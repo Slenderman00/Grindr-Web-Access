@@ -3,3 +3,4 @@ asyncio==3.4.3
 pyqrcode==1.2.1
 websocket_client==0.57.0
 xmltodict==0.12.0
+pygeohash==1.2.0

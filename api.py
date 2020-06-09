@@ -1,5 +1,6 @@
 #Simple script to explore how the new Grindr v4 web API works
 
+import pygeohash
 import requests
 import json
 import sys
@@ -49,9 +50,9 @@ def fetchSettings(authtoken):
     return json.loads(x.text)
 
 # fetching all nearby profiles
-def fetchProfiles(authtoken):
-    # TODO: FIGURE OUT WTF THIS IS: "u4xstq8k995m"
-    url = 'https://grindr.mobi/v4/locations/u4xstq8k995m/profiles?myType=false&online=false&faceOnly=false&photoOnly=false&notRecentlyChatted=false'
+def fetchProfiles(authtoken, _lat, _long, myType='false', online='false', faceOnly='false', photoOnly='false', notRecentlyChatted='false'):
+    geoHash = pygeohash.encode(_lat, _long, precision = 12)
+    url = 'https://grindr.mobi/v4/locations/' + geoHash + '/profiles?myType=' + myType + '&online=' + online + '&faceOnly=' + faceOnly + '&photoOnly=' + photoOnly + '&notRecentlyChatted=' + notRecentlyChatted
     x = requests.get(url, headers={'authorization': 'Grindr3 ' + authtoken})
     return json.loads(x.text)
 
@@ -94,7 +95,7 @@ class messageSocket:
     def authenticate(self):
         print('<open to="chat.grindr.com" version="1.0" xmlns="urn:ietf:params:xml:ns:xmpp-framing"/>')
         self.ws.send('<open to="chat.grindr.com" version="1.0" xmlns="urn:ietf:params:xml:ns:xmpp-framing"/>')
-        i = 1;
+        i = 1
         while i:
             #WS-XMPP STATE MACHINE
             respons = self.ws.recv()
@@ -121,9 +122,9 @@ class messageSocket:
                 i = 0
 
             if "failure" in respons:
-                return "";
+                return ""
 
-            #recieve message
+            #receive message
 
     def ack(self):
         #to avoid getting kicked for to many unacked messages
