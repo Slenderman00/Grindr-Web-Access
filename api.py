@@ -1,5 +1,6 @@
 #Simple script to explore how the new Grindr v4 web API works
 
+import pygeohash
 import requests
 import json
 import sys
@@ -49,9 +50,9 @@ def fetchSettings(authtoken):
     return json.loads(x.text)
 
 # fetching all nearby profiles
-def fetchProfiles(authtoken, geohash):
-    #TODO: Change "myType=false&online=false&faceOnly=false&photoOnly=false&notRecentlyChatted=false" to changeable filters.
-    url = 'https://grindr.mobi/v4/locations/'+geohash+'/profiles?myType=false&online=false&faceOnly=false&photoOnly=false&notRecentlyChatted=false'
+def fetchProfiles(authtoken, _lat, _long, myType='false', online='false', faceOnly='false', photoOnly='false', notRecentlyChatted='false'):
+    geoHash = pygeohash.encode(_lat, _long, precision = 12)
+    url = 'https://grindr.mobi/v4/locations/' + geoHash + '/profiles?myType=' + myType + '&online=' + online + '&faceOnly=' + faceOnly + '&photoOnly=' + photoOnly + '&notRecentlyChatted=' + notRecentlyChatted
     x = requests.get(url, headers={'authorization': 'Grindr3 ' + authtoken})
     return json.loads(x.text)
 

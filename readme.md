@@ -46,7 +46,8 @@ socket.tap("<Userid>", "<tapType>")
 #2 = Looking
 
 #fetch array of all users
-api.fetchProfiles(tokens[0])
+#                  authtoken    lat         long        parameters
+api.fetchProfiles(tokens[0], 40.785091, -73.968285) # myType='false', online='false', faceOnly='false', photoOnly='false', notRecentlyChatted='false'
 
 ```
 
@@ -59,6 +60,7 @@ api.fetchProfiles(tokens[0])
 - pyqrcode==1.2.1
 - websocket_client==0.57.0
 - xmltodict==0.12.0
+- pygeohash==1.2.0
 
 
 ## Contributing
