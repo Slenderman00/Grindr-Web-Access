@@ -11,6 +11,7 @@ import binascii
 import uuid
 import threading
 import xmltodict
+import random
 from websocket import create_connection
 
 # Fetching web client id
@@ -220,10 +221,12 @@ class messageSocket:
 
 
     def message(self, id, message):
+        s = "abcdefghijklmnopqrstuvwxyz01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        p = "".join(random.sample(s, 16))
         data = {"sourceProfileId":str(getProfileId(self.tokens[0])),"targetProfileId":str(id),"messageId":str(uuid.uuid1()),"sourceDisplayName":str(getProfileId(self.tokens[0])),"type":"text","timestamp":time.time(),"body":str(message)}
         data = json.dumps(data)
         data = data.replace('"', '&quot;')
-        self.ws.send('<message from="' + getProfileId(self.tokens[0]) + '@chat.grindr.com" id="U2ot8EBFwLRAw6U9" to="' + str(id) + '@chat.grindr.com" type="chat" xmlns="jabber:client"><body>' + data + '</body></message>')
+        self.ws.send('<message from="' + getProfileId(self.tokens[0]) + '@chat.grindr.com" id="'+ p +'" to="' + str(id) + '@chat.grindr.com" type="chat" xmlns="jabber:client"><body>' + data + '</body></message>')
 
     def tap(self, id, tapType):
         body = '{\"imageHash\":\"taps/friendly.png\",\"imageType\":2,\"tapType\":0}'
