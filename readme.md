@@ -1,6 +1,7 @@
-[![Build Status](https://travis-ci.com/Slenderman00/Grindr-Web-Access.svg?branch=master)](https://travis-ci.com/Slenderman00/Grindr-Web-Access)
+[![Build Status](https://travis-ci.com/Slenderman00/Grindr-Web-Access.svg?branch=experimental)](https://travis-ci.com/Slenderman00/Grindr-Web-Access)
+[![contributors](https://img.shields.io/github/contributors/slenderman00/grindr-web-access.svg)](https://github.com/Slenderman00/Grindr-Web-Access/graphs/contributors)
 
-# GRINDR WEB ACCESS
+# GRINDR WEB ACCESS - EXPERIMENTAL
 
 Grindr web access is a framework for the new grindr v4 api
 ![](https://i.imgur.com/6SGvLxS.png)
@@ -57,6 +58,7 @@ api.fetchProfiles(tokens[0], 40.785091, -73.968285) # myType='false', online='fa
 
 ## Todo
 - add search filters
+- update profile function
 
 ## Dependencies
 - requests==2.23.0
