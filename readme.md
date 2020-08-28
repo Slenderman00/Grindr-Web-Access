@@ -6,6 +6,10 @@ Grindr web access is a framework for the new grindr v4 api
 ![](https://i.imgur.com/6SGvLxS.png)
 Just scan the qrcode using your grindr app
 
+## Installation
+For easy installation using pip3 goto:
+<https://github.com/Slenderman00/Pip-Grindr-Web-Access>
+
 ## Usage
 
 ```python
