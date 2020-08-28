@@ -87,7 +87,7 @@ def fullLogin():
     return [str(authtoken(webClientId)), str(webClientId)]
 
 # fetch settings so that you can change them
-'''
+
 class settings():
     def __init__(self, tokens):
         self.tokens = tokens
@@ -136,11 +136,9 @@ class settings():
         self.meetAt = settings['meetAt']
         self.nsfw = settings['nsfw']
 
-    def updateProfileSettings(self, displayName = self.displayName, aboutMe = self.aboutMe, age = self.age, showAge = self.showAge, ethnicity = self.ethnicity, relationshipStatus = self.relationshipStatus, grindrTribes = self.grindrTribes, lookingFor = self.lookingFor, bodyType = self.bodyType, sexualPosition = self.sexualPosition, hivStatus = self.hivStatus, lastTestedDate = self.lastTestedDate, height = self.height, weight = self.weight, socialNetworks = self.socialNetworks, showDistance = self.showDistance, meetAt = self.meetAt, nsfw = self.nsfw):
-        print({'displayName': displayName})
-        #url = 'https://grindr.mobi/v3.1/me/profile'
-        #x = requests.put(url, headers={'authorization': 'Grindr3 ' + self.tokens[0]}, data={'displayName': displayName, 'aboutMe' aboutMe, 'age': age, 'showAge': showAge, 'ethnicity': ethnicity, 'relationshipStatus' relationshipStatus, 'grindrTribes': grindrTribes, 'lookingFor': lookingFor, 'bodyType': bodyType, 'sexualPosition': sexualPosition, 'hivStatus': hivStatus, 'lastTestedDate': lastTestedDate, 'height': height, 'weight': weight, 'socialNetworks': socialNetworks, 'showDistance': showDistance, 'meetAt': meetAt, 'nsfw': nsfw})
-'''
+    def updateProfileSettings(self):
+        url = 'https://grindr.mobi/v3.1/me/profile'
+        x = requests.put(url, headers={'accept': 'application/json, text/plain, */*', 'accept-encoding': 'gzip, deflate, br', 'authorization': 'Grindr3 ' + self.tokens[0], 'content-type': 'application/json'}, json={ 'showAge': self.showAge, 'age': self.age, 'displayName': self.displayName, 'aboutMe': self.aboutMe, 'height': self.height, 'weight': self.weight, 'ethnicity': self.ethnicity, 'bodyType': self.bodyType, 'sexualPosition': self.sexualPosition, 'relationshipStatus': self.relationshipStatus, 'lookingFor': self.lookingFor, 'nsfw': self.nsfw, 'meetAt': self.meetAt, 'hivStatus': self.hivStatus, 'grindrTribes': self.grindrTribes, 'socialNetworks': self.socialNetworks})
 
 # xmpp stuff (WIP)
 class messageSocket:
