@@ -4,6 +4,9 @@ import api
 tokens = api.fullLogin()
 print(api.getProfileId(tokens[0]))
 
+s1 = api.settings(tokens)
+s1.updateProfileSettings(aboutMe='test')
+
 def onmessage(message, profileid, _type):
     #returns taps
     if(_type == "tap"):
