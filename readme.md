@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/Slenderman00/Grindr-Web-Access.svg?branch=master)](https://travis-ci.com/Slenderman00/Grindr-Web-Access)
 
-# GRINDR WEB ACCESS
+# GRINDR WEB ACCESS [DEPRECATED]
 
 Grindr web access is a framework for the new grindr v4 api
 ![](https://i.imgur.com/6SGvLxS.png)
